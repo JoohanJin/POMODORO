@@ -1,6 +1,7 @@
-import 'package:extended_pomodoro/widgets/time_card.dart';
 import 'package:flutter/material.dart';
 import 'package:pausable_timer/pausable_timer.dart';
+
+import '../widgets/timer_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
