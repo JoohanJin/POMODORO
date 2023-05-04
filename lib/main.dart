@@ -14,23 +14,22 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
-          primary: Color(0xFF8EA4D2),
-          secondary: Color(0xFF6279b8),
+          primary: Color(0xFF8EA4D2), // appbar and down bar
+          secondary: Color(0xFF8EA4D2), // timer card
           onPrimary: Colors.black,
-          primaryContainer: Colors.black,
-          onPrimaryContainer: Colors.white,
+          surface: Color(0xFF6279b8), // scaffld
         ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF323031),
-          secondary: Color(0xff3d3b3c),
-          primaryContainer: Colors.white,
+          primary: Color(0xFF323031), // appbar and down bar
+          secondary: Color(0xff3d3b3c), // timer card
           onPrimary: Colors.white,
+          surface: Color(0xff121212), // scaffld
         ),
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       home: const HomeScreen(),
     );
   }

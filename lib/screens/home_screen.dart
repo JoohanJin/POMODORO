@@ -130,13 +130,53 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: const [],
                     ),
                   ),
-                  IconButton(
-                    onPressed: onPlayPauseTap,
-                    icon: Icon(started
-                        ? Icons.pause_rounded
-                        : Icons.play_arrow_rounded),
-                    iconSize: 60,
-                  )
+                  !started
+                      ? Center(
+                          child: IconButton(
+                            onPressed: onPlayPauseTap,
+                            icon: const Icon(
+                              Icons.play_arrow_rounded,
+                              size: 60,
+                            ),
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: onPlayPauseTap,
+                              icon: const Icon(
+                                Icons.pause_rounded,
+                                size: 60,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.square_rounded,
+                                size: 50,
+                              ),
+                            )
+                          ],
+                        )
+                  /*
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      started ? IconButton(
+                            onPressed = onPlayPauseTap,
+                            icon = const Icon(Icons.play_arrow_rounded),
+                          ) : 
+                      /*IconButton(
+                        // maybe need to change ->
+                        onPressed: onPlayPauseTap,
+                        icon: Icon(started
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded),
+                        iconSize: 60,
+                      ),*/
+                    ],
+                  ),*/
                 ], // Column Children
               ),
             ),
