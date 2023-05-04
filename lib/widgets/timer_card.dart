@@ -27,7 +27,7 @@ class _TimerCardState extends State<TimerCard> {
             width: 110,
             height: 100,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.4),
               borderRadius: BorderRadius.circular(5),
             ),
           ),
@@ -37,9 +37,7 @@ class _TimerCardState extends State<TimerCard> {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(
-                  0.6,
-                ),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
                 borderRadius: BorderRadius.circular(
                   5,
                 ),
@@ -53,15 +51,15 @@ class _TimerCardState extends State<TimerCard> {
               width: 130,
               height: 130,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(
                   5,
                 ),
               ),
               child: Text(
                 widget.displaySeconds,
-                style: const TextStyle(
-                  color: Color(0xFFe64d3d),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 70,
                   fontWeight: FontWeight.w600,
                 ),

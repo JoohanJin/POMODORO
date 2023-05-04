@@ -83,9 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      drawer: const Drawer(),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text(
           "POMODORO",
           style: TextStyle(
@@ -123,14 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 30,
                   ),
                   SizedBox(
-                      height: 50,
-                      child: ListView(
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.abc_outlined))
-                        ],
-                      )),
+                    height: 50,
+                    child: ListView(
+                      children: const [],
+                    ),
+                  ),
                   IconButton(
                     onPressed: onPlayPauseTap,
                     icon: Icon(started
@@ -144,13 +143,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Flexible(
             flex: 1,
-            child: Container(
-              color: Theme.of(context).colorScheme.primary,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      drawer: const Drawer(),
     );
   }
 }
