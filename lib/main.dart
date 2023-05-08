@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
           surface: Color(0xff121212), // scaffld
         ),
       ),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       home: const HomeScreen(),
     );
   }

@@ -12,7 +12,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+
   static const _fiveMinutesToSeconds = 300; // for breaktime
   static const _fifteenMinutesToSeconds = 900;
   static const _twentyMinutesToSeconds = 1200;
@@ -35,13 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
     const Duration(seconds: 1),
     onTick,
   ); //let's initialize the timer
-  bool started = false;
   bool isBreak = false;
   int totalPomodoros = 0;
+  bool isReset = true;
 
   @override
   void initState() {
     super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
   }
 
   String timerFormat(int seconds) {
@@ -62,9 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onPlayPauseTap() {
-    started = !started;
     setState(() {
-      if (started) {
+      isReset = false;
+      if (!timer.isActive) {
         timer.start();
       } else {
         timer.pause();
@@ -73,8 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onResetButtonTap() {
-    started = false;
     setState(() {
+      // timer.cancel(); // timer cannot be used again after it is cancelled
+      timer.reset();
+      isReset = true;
       timer.pause();
       displaySeconds = _defaultSeconds;
     });
@@ -127,56 +136,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 50,
                     child: ListView(
+                      //timer selection button
                       children: const [],
                     ),
                   ),
-                  !started
-                      ? Center(
-                          child: IconButton(
-                            onPressed: onPlayPauseTap,
-                            icon: const Icon(
-                              Icons.play_arrow_rounded,
-                              size: 60,
-                            ),
+                  if (isReset)
+                    Center(
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: onPlayPauseTap,
+                        icon: const Icon(
+                          Icons.play_arrow_rounded,
+                          size: 50,
+                        ),
+                      ),
+                    )
+                  else
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: onPlayPauseTap,
+                          icon: Icon(
+                            timer.isActive
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                            size: 50,
+                          ),
+                        ),
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: onResetButtonTap,
+                          icon: const Icon(
+                            Icons.square_rounded,
+                            size: 40,
                           ),
                         )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: onPlayPauseTap,
-                              icon: const Icon(
-                                Icons.pause_rounded,
-                                size: 60,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.square_rounded,
-                                size: 50,
-                              ),
-                            )
-                          ],
-                        )
-                  /*
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      started ? IconButton(
-                            onPressed = onPlayPauseTap,
-                            icon = const Icon(Icons.play_arrow_rounded),
-                          ) : 
-                      /*IconButton(
-                        // maybe need to change ->
-                        onPressed: onPlayPauseTap,
-                        icon: Icon(started
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded),
-                        iconSize: 60,
-                      ),*/
-                    ],
-                  ),*/
+                      ],
+                    )
                 ], // Column Children
               ),
             ),
@@ -190,8 +188,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
                       ),
                     ),
                   ),
