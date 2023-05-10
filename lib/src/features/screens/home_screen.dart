@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 
-import '../widgets/timer_card.dart';
+import '../common_widgets/timer_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -14,7 +14,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController animationController;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   static const _fiveMinutesToSeconds = 300; // for breaktime
   static const _fifteenMinutesToSeconds = 900;
@@ -45,10 +46,13 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
+    _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(
+        milliseconds: 300,
+      ),
     );
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
 
   String timerFormat(int seconds) {
@@ -140,41 +144,43 @@ class _HomeScreenState extends State<HomeScreen>
                       children: const [],
                     ),
                   ),
-                  if (isReset)
-                    Center(
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: onPlayPauseTap,
-                        icon: const Icon(
-                          Icons.play_arrow_rounded,
-                          size: 50,
-                        ),
-                      ),
-                    )
-                  else
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: onPlayPauseTap,
-                          icon: Icon(
-                            timer.isActive
-                                ? Icons.pause_rounded
-                                : Icons.play_arrow_rounded,
-                            size: 50,
+                  RotationTransition(
+                    turns: _animation,
+                    child: isReset
+                        ? Center(
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: onPlayPauseTap,
+                              icon: const Icon(
+                                Icons.play_arrow_rounded,
+                                size: 50,
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: onPlayPauseTap,
+                                icon: Icon(
+                                  timer.isActive
+                                      ? Icons.pause_rounded
+                                      : Icons.play_arrow_rounded,
+                                  size: 50,
+                                ),
+                              ),
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: onResetButtonTap,
+                                icon: const Icon(
+                                  Icons.square_rounded,
+                                  size: 40,
+                                ),
+                              )
+                            ],
                           ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: onResetButtonTap,
-                          icon: const Icon(
-                            Icons.square_rounded,
-                            size: 40,
-                          ),
-                        )
-                      ],
-                    )
+                  )
                 ], // Column Children
               ),
             ),
